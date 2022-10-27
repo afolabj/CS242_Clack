@@ -1,117 +1,169 @@
 package test;
 import main.ClackClient;
+import java.io.IOException;
+
+/**
+ * This class will test the functions from the class ClackClient
+ *
+ */
+
 
 public class TestClackClient {
-    public static void main(String[] args) {
-        // All four constructors of ClackClient
-        ClackClient clackClient1 = new ClackClient("testUser1", "hostName1", 12345);
-        ClackClient clackClient2 = new ClackClient("testUser2", "hostName2", 7000);
-        ClackClient clackClient3 = new ClackClient("testUser3", "localhost", 7000);
-        ClackClient clackClient4 = new ClackClient("Anon", "localhost", 7000);
-        ClackClient clackClient5 = new ClackClient("testUser2", "hostName2");
-        ClackClient clackClient6 = new ClackClient("testUser3", "localhost");
-        ClackClient clackClient7 = new ClackClient("Anon", "localhost");
-        ClackClient clackClient8 = new ClackClient("testUser3");
-        ClackClient clackClient9 = new ClackClient("Anon");
-        ClackClient clackClient10 = new ClackClient();
-        ClackClient clackClient11 = new ClackClient(null);
 
-        // getUserName()
-        System.out.println("clackClient1 getUserName(): " + clackClient1.getUserName());
-        System.out.println("clackClient2 getUserName(): " + clackClient2.getUserName());
-        System.out.println("clackClient3 getUserName(): " + clackClient3.getUserName());
-        System.out.println("clackClient4 getUserName(): " + clackClient4.getUserName());
-        System.out.println("clackClient5 getUserName(): " + clackClient5.getUserName());
-        System.out.println("clackClient6 getUserName(): " + clackClient6.getUserName());
-        System.out.println("clackClient7 getUserName(): " + clackClient7.getUserName());
-        System.out.println("clackClient8 getUserName(): " + clackClient8.getUserName());
-        System.out.println("clackClient9 getUserName(): " + clackClient9.getUserName());
-        System.out.println("clackClient10 getUserName(): " + clackClient10.getUserName());
-        System.out.println("clackClient11 getUserName(): " + clackClient11.getUserName());
-        System.out.println();
+    private static final String CLIENT_USER = "CLIENT_USER";
+    private static final String CLIENT_HOSTNAME = "CLIENT_HOSTNAME";
+    private static final int CLIENT_PORT = 7000;
 
-        // getHostName()
-        System.out.println("clackClient1 getHostName(): " + clackClient1.getHostName());
-        System.out.println("clackClient2 getHostName(): " + clackClient2.getHostName());
-        System.out.println("clackClient3 getHostName(): " + clackClient3.getHostName());
-        System.out.println("clackClient4 getHostName(): " + clackClient4.getHostName());
-        System.out.println("clackClient5 getHostName(): " + clackClient5.getHostName());
-        System.out.println("clackClient6 getHostName(): " + clackClient6.getHostName());
-        System.out.println("clackClient7 getHostName(): " + clackClient7.getHostName());
-        System.out.println("clackClient8 getHostName(): " + clackClient8.getHostName());
-        System.out.println("clackClient9 getHostName(): " + clackClient9.getHostName());
-        System.out.println("clackClient10 getHostName(): " + clackClient10.getHostName());
-        System.out.println("clackClient11 getHostName(): " + clackClient11.getHostName());
-        System.out.println();
+    private static final String SECOND_USER = "SECOND_USER";
+    private static final String SECOND_HOSTNAME = "SECOND_HOSTNAME";
+    private static final int SECOND_PORT = 1024;
 
-        // getPort()
-        System.out.println("clackClient1 getPort(): " + clackClient1.getPort());
-        System.out.println("clackClient2 getPort(): " + clackClient2.getPort());
-        System.out.println("clackClient3 getPort(): " + clackClient3.getPort());
-        System.out.println("clackClient4 getPort(): " + clackClient4.getPort());
-        System.out.println("clackClient5 getPort(): " + clackClient5.getPort());
-        System.out.println("clackClient6 getPort(): " + clackClient6.getPort());
-        System.out.println("clackClient7 getPort(): " + clackClient7.getPort());
-        System.out.println("clackClient8 getPort(): " + clackClient8.getPort());
-        System.out.println("clackClient9 getPort(): " + clackClient9.getPort());
-        System.out.println("clackClient10 getPort(): " + clackClient10.getPort());
-        System.out.println("clackClient11 getPort(): " + clackClient11.getPort());
-        System.out.println();
+    private static final String CLIENT_USER_2 = "CLIENT_USER_2";
+    private static final String CLIENT_HOST_2 = "CLIENT_PORT_2";
 
-        // hashCode()
-        System.out.println("clackClient1 hashCode(): " + clackClient1.hashCode());
-        System.out.println("clackClient2 hashCode(): " + clackClient2.hashCode());
-        System.out.println("clackClient3 hashCode(): " + clackClient3.hashCode());
-        System.out.println("clackClient4 hashCode(): " + clackClient4.hashCode());
-        System.out.println("clackClient5 hashCode(): " + clackClient5.hashCode());
-        System.out.println("clackClient6 hashCode(): " + clackClient6.hashCode());
-        System.out.println("clackClient7 hashCode(): " + clackClient7.hashCode());
-        System.out.println("clackClient8 hashCode(): " + clackClient8.hashCode());
-        System.out.println("clackClient9 hashCode(): " + clackClient9.hashCode());
-        System.out.println("clackClient10 hashCode(): " + clackClient10.hashCode());
-        System.out.println("clackClient11 hashCode(): " + clackClient11.hashCode());
-        System.out.println();
+    private static final String CLIENT_USER_3 = "CLIENT_USER_3";
 
-        // equals()
-        System.out.println("clackServer1 equals null: " + clackClient1.equals(null));
-        System.out.println("clackServer1 equals clackServer1: " + clackClient1.equals(clackClient1));
-        System.out.println("clackServer1 equals clackServer2: " + clackClient1.equals(clackClient2));
-        System.out.println("clackServer1 equals clackServer3: " + clackClient1.equals(clackClient3));
-        System.out.println("clackServer1 equals clackServer4: " + clackClient1.equals(clackClient4));
-        System.out.println("clackServer1 equals clackServer5: " + clackClient1.equals(clackClient5));
-        System.out.println("clackServer1 equals clackServer6: " + clackClient1.equals(clackClient6));
-        System.out.println("clackServer1 equals clackServer7: " + clackClient1.equals(clackClient7));
-        System.out.println("clackServer1 equals clackServer8: " + clackClient1.equals(clackClient8));
-        System.out.println("clackServer1 equals clackServer9: " + clackClient1.equals(clackClient9));
-        System.out.println("clackServer1 equals clackServer10: " + clackClient1.equals(clackClient10));
-        System.out.println("clackServer2 equals clackServer1: " + clackClient2.equals(clackClient1));
-        System.out.println("clackServer5 equals clackServer2: " + clackClient5.equals(clackClient2));
-        System.out.println("clackServer5 equals clackServer6: " + clackClient5.equals(clackClient6));
-        System.out.println("clackServer6 equals clackServer3: " + clackClient6.equals(clackClient3));
-        System.out.println("clackServer7 equals clackServer4: " + clackClient7.equals(clackClient4));
-        System.out.println("clackServer8 equals clackServer3: " + clackClient8.equals(clackClient3));
-        System.out.println("clackServer8 equals clackServer6: " + clackClient8.equals(clackClient6));
-        System.out.println("clackServer8 equals clackServer9: " + clackClient8.equals(clackClient9));
-        System.out.println("clackServer9 equals clackServer4: " + clackClient9.equals(clackClient4));
-        System.out.println("clackServer9 equals clackServer7: " + clackClient9.equals(clackClient7));
-        System.out.println("clackServer10 equals clackServer4: " + clackClient10.equals(clackClient4));
-        System.out.println("clackServer10 equals clackServer7: " + clackClient10.equals(clackClient7));
-        System.out.println("clackServer10 equals clackServer9: " + clackClient10.equals(clackClient9));
-        // System.out.println("clackServer1 equals clackServer11: " + clackClient1.equals(clackClient11));
-        // System.out.println("clackServer11 equals clackServer1: " + clackClient11.equals(clackClient1));
-        System.out.println();
+    public static void main(String[] args) throws IOException, IllegalArgumentException {
 
-        // toString()
-        System.out.println("clackClient1:\n" + clackClient1);
-        System.out.println("clackClient2:\n" + clackClient2);
-        System.out.println("clackClient3:\n" + clackClient3);
-        System.out.println("clackClient4:\n" + clackClient4);
-        System.out.println("clackClient5:\n" + clackClient5);
-        System.out.println("clackClient6:\n" + clackClient6);
-        System.out.println("clackClient7:\n" + clackClient7);
-        System.out.println("clackClient8:\n" + clackClient8);
-        System.out.println("clackClient9:\n" + clackClient9);
-        System.out.println("clackClient10:\n" + clackClient10);
-        System.out.println("clackClient11:\n" + clackClient10);
+        ClackClient client_user = new ClackClient(CLIENT_USER, CLIENT_HOSTNAME, CLIENT_PORT);
+        ClackClient client_user_2 = new ClackClient(CLIENT_USER_2, CLIENT_HOST_2);
+        ClackClient client_user_3 = new ClackClient(CLIENT_USER_3);
+        ClackClient client = new ClackClient();
+        ClackClient client_2 = new ClackClient(SECOND_USER, SECOND_HOSTNAME, SECOND_PORT);
+
+        System.out.println(" CLIENT_U_H_P VS SECOND_U_H_P: " + client_user.equals(client_2));
+        System.out.println("CLIENT_U_H_P VS CLIENT_U_H_P: " + client_user.equals(client_user));
+
+        System.out.println("CLIENT USER: " + client_user.getUserName());
+        System.out.println("CLIENT HOST: " + client_user.getHostName());
+        System.out.println("CLIENT PORT: " + client_user.getPort());
+        System.out.println("CLIENT HASHCODE: " + client_user.hashCode());
+        System.out.println("\n");
+
+        System.out.println(client_user);
+        System.out.println("\n");
+
+        System.out.println(client_user_2);
+        System.out.println("\n");
+
+        System.out.println(client_user_3);
+        System.out.println("\n");
+
+        System.out.println(client);
+        System.out.println("\n");
     }
+
+        //Part 1
+
+//        // All four constructors of ClackClient
+//        ClackClient clackClient1 = new ClackClient("testUser1", "hostName1", 12345);
+//        ClackClient clackClient2 = new ClackClient("testUser2", "hostName2", 7000);
+//        ClackClient clackClient3 = new ClackClient("testUser3", "localhost", 7000);
+//        ClackClient clackClient4 = new ClackClient("Anon", "localhost", 7000);
+//        ClackClient clackClient5 = new ClackClient("testUser2", "hostName2");
+//        ClackClient clackClient6 = new ClackClient("testUser3", "localhost");
+//        ClackClient clackClient7 = new ClackClient("Anon", "localhost");
+//        ClackClient clackClient8 = new ClackClient("testUser3");
+//        ClackClient clackClient9 = new ClackClient("Anon");
+//        ClackClient clackClient10 = new ClackClient();
+//        ClackClient clackClient11 = new ClackClient(null);
+//
+//        // getUserName()
+//        System.out.println("clackClient1 getUserName(): " + clackClient1.getUserName());
+//        System.out.println("clackClient2 getUserName(): " + clackClient2.getUserName());
+//        System.out.println("clackClient3 getUserName(): " + clackClient3.getUserName());
+//        System.out.println("clackClient4 getUserName(): " + clackClient4.getUserName());
+//        System.out.println("clackClient5 getUserName(): " + clackClient5.getUserName());
+//        System.out.println("clackClient6 getUserName(): " + clackClient6.getUserName());
+//        System.out.println("clackClient7 getUserName(): " + clackClient7.getUserName());
+//        System.out.println("clackClient8 getUserName(): " + clackClient8.getUserName());
+//        System.out.println("clackClient9 getUserName(): " + clackClient9.getUserName());
+//        System.out.println("clackClient10 getUserName(): " + clackClient10.getUserName());
+//        System.out.println("clackClient11 getUserName(): " + clackClient11.getUserName());
+//        System.out.println();
+//
+//        // getHostName()
+//        System.out.println("clackClient1 getHostName(): " + clackClient1.getHostName());
+//        System.out.println("clackClient2 getHostName(): " + clackClient2.getHostName());
+//        System.out.println("clackClient3 getHostName(): " + clackClient3.getHostName());
+//        System.out.println("clackClient4 getHostName(): " + clackClient4.getHostName());
+//        System.out.println("clackClient5 getHostName(): " + clackClient5.getHostName());
+//        System.out.println("clackClient6 getHostName(): " + clackClient6.getHostName());
+//        System.out.println("clackClient7 getHostName(): " + clackClient7.getHostName());
+//        System.out.println("clackClient8 getHostName(): " + clackClient8.getHostName());
+//        System.out.println("clackClient9 getHostName(): " + clackClient9.getHostName());
+//        System.out.println("clackClient10 getHostName(): " + clackClient10.getHostName());
+//        System.out.println("clackClient11 getHostName(): " + clackClient11.getHostName());
+//        System.out.println();
+//
+//        // getPort()
+//        System.out.println("clackClient1 getPort(): " + clackClient1.getPort());
+//        System.out.println("clackClient2 getPort(): " + clackClient2.getPort());
+//        System.out.println("clackClient3 getPort(): " + clackClient3.getPort());
+//        System.out.println("clackClient4 getPort(): " + clackClient4.getPort());
+//        System.out.println("clackClient5 getPort(): " + clackClient5.getPort());
+//        System.out.println("clackClient6 getPort(): " + clackClient6.getPort());
+//        System.out.println("clackClient7 getPort(): " + clackClient7.getPort());
+//        System.out.println("clackClient8 getPort(): " + clackClient8.getPort());
+//        System.out.println("clackClient9 getPort(): " + clackClient9.getPort());
+//        System.out.println("clackClient10 getPort(): " + clackClient10.getPort());
+//        System.out.println("clackClient11 getPort(): " + clackClient11.getPort());
+//        System.out.println();
+//
+//        // hashCode()
+//        System.out.println("clackClient1 hashCode(): " + clackClient1.hashCode());
+//        System.out.println("clackClient2 hashCode(): " + clackClient2.hashCode());
+//        System.out.println("clackClient3 hashCode(): " + clackClient3.hashCode());
+//        System.out.println("clackClient4 hashCode(): " + clackClient4.hashCode());
+//        System.out.println("clackClient5 hashCode(): " + clackClient5.hashCode());
+//        System.out.println("clackClient6 hashCode(): " + clackClient6.hashCode());
+//        System.out.println("clackClient7 hashCode(): " + clackClient7.hashCode());
+//        System.out.println("clackClient8 hashCode(): " + clackClient8.hashCode());
+//        System.out.println("clackClient9 hashCode(): " + clackClient9.hashCode());
+//        System.out.println("clackClient10 hashCode(): " + clackClient10.hashCode());
+//        System.out.println("clackClient11 hashCode(): " + clackClient11.hashCode());
+//        System.out.println();
+//
+//        // equals()
+//        System.out.println("clackServer1 equals null: " + clackClient1.equals(null));
+//        System.out.println("clackServer1 equals clackServer1: " + clackClient1.equals(clackClient1));
+//        System.out.println("clackServer1 equals clackServer2: " + clackClient1.equals(clackClient2));
+//        System.out.println("clackServer1 equals clackServer3: " + clackClient1.equals(clackClient3));
+//        System.out.println("clackServer1 equals clackServer4: " + clackClient1.equals(clackClient4));
+//        System.out.println("clackServer1 equals clackServer5: " + clackClient1.equals(clackClient5));
+//        System.out.println("clackServer1 equals clackServer6: " + clackClient1.equals(clackClient6));
+//        System.out.println("clackServer1 equals clackServer7: " + clackClient1.equals(clackClient7));
+//        System.out.println("clackServer1 equals clackServer8: " + clackClient1.equals(clackClient8));
+//        System.out.println("clackServer1 equals clackServer9: " + clackClient1.equals(clackClient9));
+//        System.out.println("clackServer1 equals clackServer10: " + clackClient1.equals(clackClient10));
+//        System.out.println("clackServer2 equals clackServer1: " + clackClient2.equals(clackClient1));
+//        System.out.println("clackServer5 equals clackServer2: " + clackClient5.equals(clackClient2));
+//        System.out.println("clackServer5 equals clackServer6: " + clackClient5.equals(clackClient6));
+//        System.out.println("clackServer6 equals clackServer3: " + clackClient6.equals(clackClient3));
+//        System.out.println("clackServer7 equals clackServer4: " + clackClient7.equals(clackClient4));
+//        System.out.println("clackServer8 equals clackServer3: " + clackClient8.equals(clackClient3));
+//        System.out.println("clackServer8 equals clackServer6: " + clackClient8.equals(clackClient6));
+//        System.out.println("clackServer8 equals clackServer9: " + clackClient8.equals(clackClient9));
+//        System.out.println("clackServer9 equals clackServer4: " + clackClient9.equals(clackClient4));
+//        System.out.println("clackServer9 equals clackServer7: " + clackClient9.equals(clackClient7));
+//        System.out.println("clackServer10 equals clackServer4: " + clackClient10.equals(clackClient4));
+//        System.out.println("clackServer10 equals clackServer7: " + clackClient10.equals(clackClient7));
+//        System.out.println("clackServer10 equals clackServer9: " + clackClient10.equals(clackClient9));
+//        // System.out.println("clackServer1 equals clackServer11: " + clackClient1.equals(clackClient11));
+//        // System.out.println("clackServer11 equals clackServer1: " + clackClient11.equals(clackClient1));
+//        System.out.println();
+//
+//        // toString()
+//        System.out.println("clackClient1:\n" + clackClient1);
+//        System.out.println("clackClient2:\n" + clackClient2);
+//        System.out.println("clackClient3:\n" + clackClient3);
+//        System.out.println("clackClient4:\n" + clackClient4);
+//        System.out.println("clackClient5:\n" + clackClient5);
+//        System.out.println("clackClient6:\n" + clackClient6);
+//        System.out.println("clackClient7:\n" + clackClient7);
+//        System.out.println("clackClient8:\n" + clackClient8);
+//        System.out.println("clackClient9:\n" + clackClient9);
+//        System.out.println("clackClient10:\n" + clackClient10);
+//        System.out.println("clackClient11:\n" + clackClient10);
+
 }
