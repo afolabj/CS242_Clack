@@ -59,7 +59,9 @@ public class ClackServer {
     public int getPort(){ return this.port;} //returns the port
 
 
-    //Overridden functions
+    /**
+     * Overridden functions
+     */
     @Override
     public int hashCode(){
         return Objects.hash(this.port,this.closeConnection,this.dataToReceiveFromClient,this.dataToSendToClient);

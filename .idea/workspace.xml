@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="08961669-5129-4139-b6b6-dbb1b9fa119d" name="Changes" comment="Project No Errors">
+    <list default="true" id="08961669-5129-4139-b6b6-dbb1b9fa119d" name="Changes" comment="project part 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/ClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ClackData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/FileClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/FileClackData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/MessageClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/MessageClackData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/ClackClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ClackClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/ClackServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ClackServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TestClackClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestClackClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TestClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestClackData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TestClackServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestClackServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +40,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/joann/OneDrive/Desktop/clack_part_2-master"
+    "last_opened_file_path": "C:/Users/joann/OneDrive/Desktop/cs242-fa22-project-part1-solution"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -62,7 +59,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664935821342</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="project part 2">
+      <created>1666903914530</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666903914530</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -78,6 +82,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project No Errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project No Errors" />
+    <MESSAGE value="project part 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="project part 2" />
   </component>
 </project>
