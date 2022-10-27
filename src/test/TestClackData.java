@@ -6,8 +6,6 @@ import java.io.IOException;
 
 /**
  *TestClackData
- *
- *
  */
 
 public class TestClackData {

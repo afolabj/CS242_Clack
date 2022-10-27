@@ -4,7 +4,6 @@ import java.io.IOException;
 
 /**
  * This class will test the functions from the class ClackClient
- *
  */
 
 

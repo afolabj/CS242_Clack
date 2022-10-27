@@ -11,7 +11,7 @@ public class MessageClackData extends ClackData{
 
     /**
      * The constructor to set up the instance variables username, message, and type.
-     * Should call the super constructor.
+     * Should call the super constructor
      *
      * @param userName a string representing the name of the client user
      * @param message  a string representing instant message
@@ -24,18 +24,31 @@ public class MessageClackData extends ClackData{
 
     /**
      * The default constructor.
-     * This constructor should call another constructor.
+     * This constructor should call another constructor
      */
     public MessageClackData(){
         super(ClackData.CONSTANT_SENDMESSAGE);
         this.message = "";
     }
 
-    public MessageClackData(String userName, String message, String key, int type){}
+    /**
+     * a constructor.
+     * Immediately encrypts and decrypts the message with a key
+     */
+    public MessageClackData(String userName, String message, String key, int type){
+        super(userName, type);
+        this.message = this.encrypt(message, key);
+    }
 
-    public String getData(){return this.message;} //returns instant message
+    /**
+     * returns decrypted instant message
+     */
+    public String getData(String key){return decrypt(this.message, key);}
 
-    // Overridden functions
+
+    /**
+     * Overridden functions
+     */
     @Override
     public int hashCode(){ return Objects.hash(this.message, this.type, this.userName);}
     @Override
@@ -52,7 +65,6 @@ public class MessageClackData extends ClackData{
                && this.userName == objMessageClackData.userName
                && this.type == objMessageClackData.type;
     }
-    //Overriding the toString function
     @Override
     public String toString(){
         return "MESSAGE: " + this.message + "\n" +

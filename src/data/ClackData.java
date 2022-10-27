@@ -11,9 +11,11 @@ import java.io.*;
  *
  */
 public abstract class ClackData {
+
     protected String userName; //name of client user
     protected int type;
     protected Date date; //date when ClackData object was created
+
     /**
      * For giving a listing of all users connected to this session.
      */
@@ -33,6 +35,9 @@ public abstract class ClackData {
      * For sending a file.
      */
     public static final int CONSTANT_SENDFILE = 3;
+
+    private final String upperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String lowerLetters = "abcdefghijklmnopqrstuvwxyz";
 
     /**
      * The constructor to set up the instance variable username and type.
@@ -75,60 +80,70 @@ public abstract class ClackData {
     public abstract String getData();
 
 
+    /**
+     * this method takes in an input string to encrypt using a key, and outputs the decrypted string
+     * @param inputStringToEncrypt
+     * @param key
+     * @return decrypted string using a key
+     */
     protected String encrypt(String inputStringToEncrypt, String key){
-        String securedString = "";
+        String encryptedString = "";
         char[] addKey = new char[inputStringToEncrypt.length()];
         int lenKey = key.length();
 
-
-
-        int differenceSpace = 0;
+        int Space = 0;
         for (int i = 0 ; i < inputStringToEncrypt.length(); i++) {
             if (Character.isLetter(inputStringToEncrypt.charAt(i)))
-                addKey[i] = key.charAt((i - differenceSpace) % lenKey);
+                addKey[i] = key.charAt((i - Space) % lenKey);
             else {
                 addKey[i] = inputStringToEncrypt.charAt(i);
-                differenceSpace++;
+                Space++;
             }}
 
-
-        differenceSpace = 0;
+        Space = 0;
         for (int i = 0; i < inputStringToEncrypt.length(); i++) {
-            boolean flagStatus = false;
+            boolean flag = false;
             int keyCharPos, inputCharPos;
             if (Character.isLetter(inputStringToEncrypt.charAt(i))) {
                 keyCharPos = upperLetters.indexOf(addKey[i]);
                 inputCharPos = lowerLetters.indexOf(inputStringToEncrypt.charAt(i));
                 if (inputCharPos == -1) {
                     inputCharPos = upperLetters.indexOf(inputStringToEncrypt.charAt(i));
-                    flagStatus = true;
+                    flag = true;
                 }
                 int encryptedCharIndex = (inputCharPos + keyCharPos) % 26;
-                if (flagStatus)
-                    securedString = securedString +  upperLetters.charAt(encryptedCharIndex);
+                if (flag)
+                    encryptedString = encryptedString +  upperLetters.charAt(encryptedCharIndex);
                 else
-                    securedString = securedString + upperLetters.charAt(encryptedCharIndex);
+                    encryptedString = encryptedString + lowerLetters.charAt(encryptedCharIndex);
             } else {
-                securedString = securedString + inputStringToEncrypt.charAt(i);
-                differenceSpace++;
+                encryptedString = encryptedString + inputStringToEncrypt.charAt(i);
+                Space++;
             }
         }
-        return securedString;
+        return encryptedString;
     }
 
+
+    /**
+     * this method takes in an input string to decrypt using a key, and outputs the decrypted string
+     * @param inputStringToDecrypt
+     * @param key
+     * @return decrypted string using a key
+     */
     protected String decrypt(String inputStringToDecrypt, String key) {
         String decryptedString = "";
         char[] addKey = new char[inputStringToDecrypt.length()];
         int lenKey = key.length();
 
 
-        int differenceSpace = 0;
+        int Space = 0;
         for (int i = 0; i < inputStringToDecrypt.length(); i++) {
             if (Character.isLetter(inputStringToDecrypt.charAt(i)))
-                addKey[i] = key.charAt((i - differenceSpace) % lenKey);
+                addKey[i] = key.charAt((i - Space) % lenKey);
             else {
                 addKey[i] = inputStringToDecrypt.charAt(i);
-                differenceSpace++;
+                Space++;
             }}
         for (int i = 0; i < inputStringToDecrypt.length(); i++) {
             boolean flagStatus = false;
@@ -147,7 +162,7 @@ public abstract class ClackData {
                     decryptedString = decryptedString + lowerLetters.charAt(decryptedCharIndex);
             } else {
                 decryptedString = decryptedString +  inputStringToDecrypt.charAt(i);
-                differenceSpace++;
+                Space++;
             }}
         return decryptedString;
     }
