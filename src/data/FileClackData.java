@@ -48,6 +48,11 @@ public class FileClackData extends ClackData {
     @Override
     public String getData(String key){ return decrypt(this.fileContents,key); }
 
+    @Override
+    public String getData() {
+        return this.fileContents;
+    }
+
 
     /**
      * Reads and Writes the file contents.
@@ -67,9 +72,10 @@ public class FileClackData extends ClackData {
 
         } catch (FileNotFoundException fnfe) {
             System.err.println("File does not exist");
-        }catch( IOException ioe) {
-            System.err.println("IOException occurred");
         }
+//        catch( IOException ioe) {
+//            System.err.println("IOException occurred");
+//        }
     }
     public void readFileContents(String key) throws IOException {
         this.fileContents = "";
@@ -78,15 +84,18 @@ public class FileClackData extends ClackData {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String nextline;
             while ( (nextline = bufferedReader.readLine()) != EOS) {
-                fileContents = fileContents + encrypt(nextline, key);
+                fileContents = fileContents + nextline;
             }
             bufferedReader.close();
 
         } catch (FileNotFoundException fnfe) {
             System.err.println("File does not exist");
-        } catch(IOException ioe) {
-            System.err.println("IOException occurred");
         }
+//        catch(IOException ioe) {
+//            System.err.println("IOException occurred");
+//        }
+
+        fileContents = encrypt(fileContents, key);
     }
 
     public void writeFileContents(){

@@ -19,7 +19,6 @@ public class TestClackClient {
 
     private static final String CLIENT_USER_2 = "CLIENT_USER_2";
     private static final String CLIENT_HOST_2 = "CLIENT_PORT_2";
-
     private static final String CLIENT_USER_3 = "CLIENT_USER_3";
 
     public static void main(String[] args) throws IOException, IllegalArgumentException {
@@ -50,6 +49,10 @@ public class TestClackClient {
 
         System.out.println(client);
         System.out.println("\n");
+
+
+        client.start();
+
     }
 
         //Part 1

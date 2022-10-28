@@ -81,16 +81,17 @@ public abstract class ClackData implements Serializable {
      *
      * @return data
      */
+    public abstract String getData(String key);
+
 
     public abstract String getData();
-    public abstract String getData(String Key);
 
 
     /**
-     * this method takes in an input string to encrypt using a key, and outputs the decrypted string
+     * this method takes in an input string to encrypt using a key, and outputs the encrypted string
      * @param inputStringToEncrypt
      * @param key
-     * @return decrypted string using a key
+     * @return encrypted string using a key
      */
     protected String encrypt(String inputStringToEncrypt, String key){
         String encryptedString = "";
