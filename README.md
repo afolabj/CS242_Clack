@@ -1,5 +1,28 @@
 # CS242_Clack
 Joanne Afolabi & Bizimana Valesi
-In your test classes, what happens if you provide a negative value for a port number, or a null value for a user? How do you think you can fix these issues?
+Report with output from TestClackClient?
 
-If you provide a negative value for a port number or a null value for a user it will output a negative value and a null value. To fix these issues we can use error checking to provide conditions so the port number is never less than zero and check if a username is valid and not equal to null.
+INPUT = DONE
+OUTPUT = "Process finished with exit code 0" the program exist
+
+INPUT = SENDFILE
+OUTPUT = the program exists with an error 
+            
+
+INPUT = LISTUSERS
+OUTPUT =    the program outputs th users name, data and time
+            Data :
+            Date and time : Fri Oct 28 17:27:50 EDT 2022
+            from : Anon
+
+INPUT = anything else
+OUTPUT = 
+            Data :
+            Date and time : Fri Oct 28 17:26:06 EDT 2022
+            from : Anon
+            Data : dhjf
+            Date and time : Fri Oct 28 17:26:06 EDT 2022
+            from : Anon
+
+
+
