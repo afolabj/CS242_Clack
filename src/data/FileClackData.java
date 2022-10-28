@@ -92,6 +92,8 @@ public class FileClackData extends ClackData {
             bw.close();
         } catch (FileNotFoundException fnfe) {
             System.err.println("Not found :  " + this.fileName + "(" + fnfe.getMessage() + ")");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     public void writeFileContents(String key){
@@ -103,6 +105,8 @@ public class FileClackData extends ClackData {
             bw.close();
         } catch (FileNotFoundException fnfe) {
             System.err.println("Not found: " + this.fileName + " (" + fnfe.getMessage() + ")");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
