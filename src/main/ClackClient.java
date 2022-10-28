@@ -1,8 +1,9 @@
 package main;
+
 import data.*;
-import java.util.Objects;
-import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import java.net.*;
 
 
 
@@ -90,9 +91,10 @@ public class ClackClient {
      */
     public void start(){
         try {
-            Socket s = new Socket(this.hostName, this.port);
-            outputServer = new ObjectOutputStream(s.getOutputStream());
-            inputServer = new ObjectInputStream(s.getInputStream());
+            Socket skt = new Socket(this.hostName, this.port);
+            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(skt.getInputStream()));
+            PrintWriter outFromClient  = new PrintWriter(skt.getOutputStream(),true);
+
             inFromStd = new Scanner(System.in);
             while (!closeConnection) {
                 try {
@@ -103,10 +105,10 @@ public class ClackClient {
                 } catch (IOException ioe) {
                     System.err.println(ioe.getMessage());
                 }}
-            s.close();
+            inFromStd.close();
+            skt.close();
         } catch (IOException ioe) {
-            System.err.println("input output error: " + ioe.getMessage());
-        }
+            System.err.println("IO exception occurred");}
     }
 
     /**
@@ -119,12 +121,11 @@ public class ClackClient {
         String input = inFromStd.nextLine();
         if (input.equals("DONE")) {
             this.closeConnection = true;
-        } else if (input.contains("SENDFILE"))
-        {
+        } else if (input.contains("SENDFILE")) {
             fileName = input.substring(9, input.length());
             this.dataToSendToServer = new FileClackData(this.userName, fileName, ClackData.CONSTANT_SENDFILE);
             try {
-                ((FileClackData)this.dataToSendToServer).readFileContents(key);
+                ((FileClackData)this.dataToSendToServer).readFileContents();
             } catch (IOException ioe) {
                 this.dataToSendToServer = null;
                 System.err.println(ioe.getMessage());
@@ -139,10 +140,11 @@ public class ClackClient {
      * Prints the received data to the standard output.
      */
     public void printData(){
-        System.out.println("Data : " + this.dataToReceiveFromServer.getData(key));
+        System.out.println("Data : " + this.dataToReceiveFromServer.getData());
         System.out.println("Date and time : " + this.dataToReceiveFromServer.getDate());
         System.out.println("from : " + this.dataToReceiveFromServer.getUserName());
     }
+
 
     /**
      * Sends and Receives data to server.

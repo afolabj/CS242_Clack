@@ -10,6 +10,8 @@ public class FileClackData extends ClackData {
     private String fileName;
     private String fileContents;
 
+    public static final String EOS = null ;
+
     /**
      * The constructor to set up the instance variables username, fileName, and type.
      * Should call the super constructor.
@@ -53,60 +55,63 @@ public class FileClackData extends ClackData {
      */
     public void readFileContents() throws IOException {
         this.fileContents = "";
+        File file = new File("src/test/" + this.fileName);
         try {
-            File myFile = new File("src/test/" + this.fileName);
-            BufferedReader br = new BufferedReader(new FileReader(myFile));
-            String line;
-
-            while ((line = br.readLine()) != EOS) {
-                this.fileContents = this.fileContents +  line + "\n";
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String nextline;
+            while ((nextline = bufferedReader.readLine()) != EOS) {
+                this.fileContents = this.fileContents +  nextline + "\n";
             }
-            br.close();
+            bufferedReader.close();
+
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Not found :  " + this.fileName + " (" + fnfe.getMessage() + ")");
+            System.err.println("File does not exist");
+        }catch( IOException ioe) {
+            System.err.println("IOException occurred");
         }
     }
     public void readFileContents(String key) throws IOException {
         this.fileContents = "";
+        File file = new File("src/test/" + this.fileName);
         try {
-            File myFile = new File("src/test/" + this.fileName);
-            BufferedReader br = new BufferedReader(new FileReader(myFile));
-
-            String line;
-
-            while ( (line = br.readLine()) != EOS) {
-                fileContents = fileContents + encrypt(line, key);
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String nextline;
+            while ( (nextline = bufferedReader.readLine()) != EOS) {
+                fileContents = fileContents + encrypt(nextline, key);
             }
-            br.close();
+            bufferedReader.close();
+
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Not found: " + this.fileName + "(" + fnfe.getMessage() + ")");
+            System.err.println("File does not exist");
+        } catch(IOException ioe) {
+            System.err.println("IOException occurred");
         }
     }
 
     public void writeFileContents(){
+        File file = new File("src/test/" + this.fileName);
         try {
-            File myFile = new File("src/test/" + this.fileName);
-            BufferedWriter bw = new BufferedWriter(new FileWriter(myFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(this.fileContents);
+            bufferedWriter.close();
 
-            bw.write(this.fileContents);
-            bw.close();
         } catch (FileNotFoundException fnfe) {
             System.err.println("Not found :  " + this.fileName + "(" + fnfe.getMessage() + ")");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch(IOException ioe) {
+            System.err.println("IOException occurred");
         }
     }
     public void writeFileContents(String key){
+        File file = new File("src/test/" + this.fileName);
         try {
-            File myFile = new File("src/test/" + this.fileName);
-            BufferedWriter bw = new BufferedWriter(new FileWriter(myFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(decrypt(this.fileContents, key));
+            bufferedWriter.close();
 
-            bw.write(decrypt(this.fileContents, key));
-            bw.close();
         } catch (FileNotFoundException fnfe) {
             System.err.println("Not found: " + this.fileName + " (" + fnfe.getMessage() + ")");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch(IOException ioe) {
+            System.err.println("IOException occurred");
         }
     }
 

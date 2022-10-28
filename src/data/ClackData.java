@@ -1,6 +1,10 @@
 package data;
+
 import java.util.*;
 import java.io.*;
+import java.net.*;
+
+
 
 /**
  * Class ClackData is a superclass that represents the data sent between the client and the
@@ -10,7 +14,7 @@ import java.io.*;
  * should not be instantiable.
  *
  */
-public abstract class ClackData {
+public abstract class ClackData implements Serializable {
 
     protected String userName; //name of client user
     protected int type;
