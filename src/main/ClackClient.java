@@ -117,7 +117,7 @@ public class ClackClient {
     public void readClientData() throws IOException {
         String fileName;
         String input = inFromStd.nextLine();
-        if (input.equals("COMPLETE")) {
+        if (input.equals("DONE")) {
             this.closeConnection = true;
         } else if (input.contains("SENDFILE"))
         {
