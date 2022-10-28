@@ -45,13 +45,13 @@ public class FileClackData extends ClackData {
     /**
      * returns decrypted fileContents
      */
-    public String getData(String key){ return decrypt(this.fileContents,key); }
+    public String getData(String key){ return this.decrypt(this.fileContents,key); }
 
 
     /**
-     * Reads and Writes the file contents.
-     * Does not return anything.
-     * For now, it should have no code, just a declaration.
+     * This method takes in no arguments,
+     * and does non-secure file reads.
+     * @throws IOException
      */
     public void readFileContents() throws IOException {
         this.fileContents = "";
@@ -70,6 +70,13 @@ public class FileClackData extends ClackData {
             System.err.println("IOException occurred");
         }
     }
+
+    /**
+     * Takes in one argument and does secure file reads and encrypt
+     * the contents to the instance variable using key.
+     * @param key
+     * @throws IOException
+     */
     public void readFileContents(String key) throws IOException {
         this.fileContents = "";
         File file = new File("src/test/" + this.fileName);
@@ -88,6 +95,10 @@ public class FileClackData extends ClackData {
         }
     }
 
+    /**
+     * This method takes in no arguments,
+     * and does non-secure file writes.
+     */
     public void writeFileContents(){
         File file = new File("src/test/" + this.fileName);
         try {
@@ -96,11 +107,17 @@ public class FileClackData extends ClackData {
             bufferedWriter.close();
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Not found :  " + this.fileName + "(" + fnfe.getMessage() + ")");
+            System.err.println("File does not exist");
         } catch(IOException ioe) {
             System.err.println("IOException occurred");
         }
     }
+
+    /**
+     * Takes in one argument and does secure file writes and decrypts
+     * the contents to the instance variable using key.
+     * @param key
+     */
     public void writeFileContents(String key){
         File file = new File("src/test/" + this.fileName);
         try {
@@ -109,7 +126,7 @@ public class FileClackData extends ClackData {
             bufferedWriter.close();
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Not found: " + this.fileName + " (" + fnfe.getMessage() + ")");
+            System.err.println("File does not exist");
         } catch(IOException ioe) {
             System.err.println("IOException occurred");
         }

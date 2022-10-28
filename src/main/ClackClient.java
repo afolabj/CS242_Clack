@@ -24,6 +24,9 @@ public class ClackClient {
     private ClackData dataToReceiveFromServer;
     private Scanner inFromStd;
 
+    private final String key = "HELLO";
+
+
 
     /**
      * The constructor to set up the username, host name, and port.
@@ -140,7 +143,7 @@ public class ClackClient {
      * Prints the received data to the standard output.
      */
     public void printData(){
-        System.out.println("Data : " + this.dataToReceiveFromServer.getData());
+        System.out.println("Data : " + this.dataToReceiveFromServer.getData(key));
         System.out.println("Date and time : " + this.dataToReceiveFromServer.getDate());
         System.out.println("from : " + this.dataToReceiveFromServer.getUserName());
     }
