@@ -45,6 +45,7 @@ public class FileClackData extends ClackData {
     /**
      * returns decrypted fileContents
      */
+    @Override
     public String getData(String key){ return decrypt(this.fileContents,key); }
 
 

@@ -81,7 +81,9 @@ public abstract class ClackData implements Serializable {
      *
      * @return data
      */
+
     public abstract String getData();
+    public abstract String getData(String Key);
 
 
     /**
