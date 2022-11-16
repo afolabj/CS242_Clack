@@ -47,7 +47,7 @@ public class TestClackData {
 
         System.out.println("user_1 getDate: " + user_1.getDate());
         System.out.println("\n");
-        System.out.println("user_1: " + user_1.getData(KEY));
+       // System.out.println("user_1: " + user_1.getData(KEY));
         System.out.println("user_1 getFilename: " + user_1.getFileName());
         System.out.println("\n");
 
@@ -60,12 +60,12 @@ public class TestClackData {
         //data_with_string
         MessageClackData data_w_s = new MessageClackData(USER_1, MESSAGE_1, KEY, TYPE_1);
 
-        //data_no_stirng
+        //data_no_string
         MessageClackData data_n_s = new MessageClackData(USER_1, MESSAGE_1, TYPE_1);
         MessageClackData data_1 = new MessageClackData(USER_2, MESSAGE_2, TYPE_2);
         MessageClackData data_2 = new MessageClackData();
 
-        System.out.println("data_no_string vs data_1" + data_n_s.equals(data_1));
+        System.out.println("data_no_string vs data_1 " + data_n_s.equals(data_1));
         System.out.println("data_no_string vs data_no_string " + data_n_s.equals(data_n_s));
         System.out.println("data_no_string getDate " + data_n_s.getDate());
         System.out.println("message data_no_string " + data_n_s.getData(KEY));
@@ -87,11 +87,6 @@ public class TestClackData {
         System.out.println("message data-with-string " + data_w_s.getData(KEY));
 
     }
-
-
-
-
-
 
 
 

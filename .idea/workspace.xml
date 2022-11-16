@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08961669-5129-4139-b6b6-dbb1b9fa119d" name="Changes" comment="project part 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/ClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ClackData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/FileClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/FileClackData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/MessageClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/MessageClackData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/ClackClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ClackClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TestClackClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestClackClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/TestClackData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestClackData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666923661786</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="project part 2">
+      <created>1666964954390</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666964954390</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

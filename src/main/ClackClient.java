@@ -128,7 +128,7 @@ public class ClackClient {
             fileName = input.substring(9, input.length());
             this.dataToSendToServer = new FileClackData(this.userName, fileName, ClackData.CONSTANT_SENDFILE);
             try {
-                ((FileClackData)this.dataToSendToServer).readFileContents();
+                ((FileClackData)this.dataToSendToServer).readFileContents(key);
             } catch (IOException ioe) {
                 this.dataToSendToServer = null;
                 System.err.println(ioe.getMessage());
