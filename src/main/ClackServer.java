@@ -2,6 +2,7 @@ package main;
 import data.*;
 import java.util.*;
 import java.net.*;
+import java.io.*;
 
 /**
  * The ClackServer class is a blueprint for a ClackServer object that contains information about the
@@ -18,6 +19,8 @@ public class ClackServer {
     private boolean closeConnection;
     private ClackData dataToReceiveFromClient;
     private ClackData dataToSendToClient;
+    private ObjectInputStream inputClient;
+    private ObjectOutputStream outputClient;
 
 
     /**
@@ -26,11 +29,16 @@ public class ClackServer {
      *
      * @param port an int representing the port number on the server connected to
      */
-    public ClackServer(int port){
+    public ClackServer(int port) throws IllegalArgumentException{
+        if(port < 1024){
+            throw new IllegalArgumentException("please make port must be greater than 1024")
+        }
         this.port = port;
         this.closeConnection = false;
         this.dataToReceiveFromClient = null;
         this.dataToSendToClient = null;
+        this.inputClient = null;
+        this.outputClient = null;
     }
 
     /**
@@ -44,18 +52,51 @@ public class ClackServer {
 
     /**
      * Starts the server.
-     * Does not return anything.
-     * For now, it should have no code, just a declaration.
+     * Gets connections from the client
      */
-    public void start(){}
+    public void start(){
+        try {
+            ServerSocket skt = new ServerSocket(this.port);
+
+            while (!closeConnection) {
+                this.sendData();
+                this.receiveData();
+            }
+            skt.close();
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        }
+    }
 
     /**
-     * Receives and Sends data to client.
-     * Does not return anything.
-     * For now, it should have no code, just a declaration.
+     * Reads in a ClackData object from the ObjectInputStream
+     * And determines if the connection is to be closed
+     * Catches all relevant exception objects
      */
-    public void receiveData(){}
-    public void sendData(){}
+    public void receiveData(){
+        try{
+            this.dataToReceiveFromClient = (ClackData) inputClient.readObject();
+            if(this.dataToReceiveFromClient.getType() == 1)
+                closeConnection = !closeConnection;
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        } catch (ClassNotFoundException cnf) {
+            System.err.println ("Class not found");
+        }
+        this.dataToSendToClient = this.dataToReceiveFromClient;
+    }
+
+    /**
+     * Writes out the ClackData object and
+     * Catches all relevant exception objects
+     */
+    public void sendData(){
+        try{
+            outputClient.writeObject(this.dataToSendToClient);
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        }
+    }
 
     public int getPort(){ return this.port;} //returns the port
 

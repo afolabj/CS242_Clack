@@ -6,7 +6,6 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
-
 /**
  * The ClackClient class represents the client user. A ClackClient object contains the username,
  * host name of the server connected to, port number connected to, and a boolean designating
@@ -23,9 +22,10 @@ public class ClackClient {
     private ClackData dataToSendToServer;
     private ClackData dataToReceiveFromServer;
     private Scanner inFromStd;
+    private ObjectInputStream inFromServer;
+    private ObjectOutputStream outToServer;
 
     private static final String KEY = "HELLO";
-
 
     /**
      * The constructor to set up the username, host name, and port.
@@ -53,6 +53,8 @@ public class ClackClient {
         this.closeConnection = false;
         this.dataToSendToServer = null;
         this.dataToReceiveFromServer = null;
+        this.inFromServer = null;
+        this.outToServer = null;
     }
 
     /**
@@ -92,28 +94,24 @@ public class ClackClient {
      * For now, it should have no code, just a declaration.
      */
     public void start() {
-//        try {
-//            Socket skt = new Socket(this.hostName, this.port);
+        try {
+            Socket skt = new Socket(this.hostName, this.port);
 //            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(skt.getInputStream()));
 //            PrintWriter outFromClient  = new PrintWriter(skt.getOutputStream(),true);
 
-        inFromStd = new Scanner(System.in);
-        while (!closeConnection) {
-//                try {
-            this.readClientData();
-//                    this.sendData();
-            dataToReceiveFromServer = dataToSendToServer;
-//                    this.receiveData();
-            this.printData();
+            inFromStd = new Scanner(System.in);
+            while (!closeConnection) {
+                    this.readClientData();
+                    this.sendData();
+                    this.receiveData();
+                    this.printData();
+                    dataToReceiveFromServer = dataToSendToServer;
+            }
+            inFromStd.close();
+            skt.close();
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
         }
-//            catch (IOException ioe) {
-//                    System.err.println(ioe.getMessage());
-//                }
-//    }
-        inFromStd.close();
-//            skt.close();
-//        } catch (IOException ioe) {
-//            System.err.println("IO exception occurred");}
     }
 
     /**
@@ -133,7 +131,7 @@ public class ClackClient {
                 ((FileClackData) this.dataToSendToServer).readFileContents(KEY);
             } catch (IOException ioe) {
                 this.dataToSendToServer = null;
-                System.err.println(ioe.getMessage());
+                System.err.println("IO exception occurred");
             }
         } else if (input.equals("LISTUSERS")) {
         } else {
@@ -147,19 +145,39 @@ public class ClackClient {
     public void printData() {
         if (this.dataToReceiveFromServer == null) return;
 
-        System.out.println("Data : " + this.dataToReceiveFromServer.getData(KEY));
+        System.out.println("Data : " + this.dataToReceiveFromServer.getData());
         System.out.println("Date and time : " + this.dataToReceiveFromServer.getDate());
         System.out.println("from : " + this.dataToReceiveFromServer.getUserName());
     }
 
 
     /**
-     * Sends and Receives data to server.
-     * Does not return anything.
-     * For now, it should have no code, just a declaration.
+     * writes out the ClackData object
+     * Catches all relevant exception objects and prints out
+     * messages to standard errors in the event of exceptions.
      */
-    public void sendData() {}
-    public void receiveData() {}
+    public void sendData() {
+        try{
+            outToServer.writeObject(this.dataToSendToServer);
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        }
+    }
+
+    /**
+     *  Reads in a ClackData object from the ObjectInputStream
+     * Catches all relevant exception objects and prints
+     * out messages to standard errors in the event of exceptions.
+     */
+    public void receiveData() {
+        try{
+            this.dataToReceiveFromServer = (ClackData) inFromServer.readObject();
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        } catch (ClassNotFoundException cnf) {
+            System.err.println ("Class not found");
+        }
+    }
 
     public String getUserName() {
         return this.userName;
