@@ -49,6 +49,10 @@ public class TestClackClient {
 
         System.out.println(client);
         System.out.println("\n");
+
+
+        client.start();
+
     }
 
         //Part 1

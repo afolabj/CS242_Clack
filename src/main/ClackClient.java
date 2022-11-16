@@ -1,10 +1,10 @@
 package main;
 
 import data.*;
+
 import java.util.*;
 import java.io.*;
 import java.net.*;
-
 
 
 /**
@@ -24,8 +24,7 @@ public class ClackClient {
     private ClackData dataToReceiveFromServer;
     private Scanner inFromStd;
 
-    private final String key = "HELLO";
-
+    private static final String KEY = "HELLO";
 
 
     /**
@@ -37,7 +36,7 @@ public class ClackClient {
      * @param hostName a string representing the host name of the server
      * @param port     an int representing the port number on the server connected to
      */
-    public ClackClient(String userName,String hostName, int port){
+    public ClackClient(String userName, String hostName, int port) {
         if (userName == null) {
             throw new IllegalArgumentException("please change username from null");
         }
@@ -64,8 +63,8 @@ public class ClackClient {
      * @param userName a string representing the username of the client
      * @param hostName a string representing the host name of the server
      */
-    public ClackClient(String userName, String hostName){
-        this(userName,hostName, DEFAULT_PORT);
+    public ClackClient(String userName, String hostName) {
+        this(userName, hostName, DEFAULT_PORT);
     }
 
     /**
@@ -75,15 +74,15 @@ public class ClackClient {
      *
      * @param userName a string representing the username of the client
      */
-    public ClackClient(String userName){
-        this(userName,"localhost");
+    public ClackClient(String userName) {
+        this(userName, "localhost");
     }
 
     /**
      * The default constructor that sets the anonymous user.
      * This constructor should call another constructor.
      */
-    public ClackClient(){
+    public ClackClient() {
         this("Anon");
     }
 
@@ -92,26 +91,29 @@ public class ClackClient {
      * Does not return anything.
      * For now, it should have no code, just a declaration.
      */
-    public void start(){
-        try {
-            Socket skt = new Socket(this.hostName, this.port);
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(skt.getInputStream()));
-            PrintWriter outFromClient  = new PrintWriter(skt.getOutputStream(),true);
+    public void start() {
+//        try {
+//            Socket skt = new Socket(this.hostName, this.port);
+//            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(skt.getInputStream()));
+//            PrintWriter outFromClient  = new PrintWriter(skt.getOutputStream(),true);
 
-            inFromStd = new Scanner(System.in);
-            while (!closeConnection) {
-                try {
-                    this.readClientData();
-                    this.sendData();
-                    this.receiveData();
-                    this.printData();
-                } catch (IOException ioe) {
-                    System.err.println(ioe.getMessage());
-                }}
-            inFromStd.close();
-            skt.close();
-        } catch (IOException ioe) {
-            System.err.println("IO exception occurred");}
+        inFromStd = new Scanner(System.in);
+        while (!closeConnection) {
+//                try {
+            this.readClientData();
+//                    this.sendData();
+            dataToReceiveFromServer = dataToSendToServer;
+//                    this.receiveData();
+            this.printData();
+        }
+//            catch (IOException ioe) {
+//                    System.err.println(ioe.getMessage());
+//                }
+//    }
+        inFromStd.close();
+//            skt.close();
+//        } catch (IOException ioe) {
+//            System.err.println("IO exception occurred");}
     }
 
     /**
@@ -119,31 +121,33 @@ public class ClackClient {
      * Does not return anything.
      * For now, it should have no code, just a declaration.
      */
-    public void readClientData() throws IOException {
+    public void readClientData() {
         String fileName;
         String input = inFromStd.nextLine();
-        if (input.equals("COMPLETE")) {
+        if (input.equals("DONE")) {
             this.closeConnection = true;
         } else if (input.contains("SENDFILE")) {
             fileName = input.substring(9, input.length());
             this.dataToSendToServer = new FileClackData(this.userName, fileName, ClackData.CONSTANT_SENDFILE);
             try {
-                ((FileClackData)this.dataToSendToServer).readFileContents(key);
+                ((FileClackData) this.dataToSendToServer).readFileContents(KEY);
             } catch (IOException ioe) {
                 this.dataToSendToServer = null;
                 System.err.println(ioe.getMessage());
             }
         } else if (input.equals("LISTUSERS")) {
         } else {
-            this.dataToSendToServer = new MessageClackData(this.userName, null, ClackData.CONSTANT_SENDMESSAGE);
+            this.dataToSendToServer = new MessageClackData(this.userName, input, KEY, ClackData.CONSTANT_SENDMESSAGE);
         }
     }
 
     /**
      * Prints the received data to the standard output.
      */
-    public void printData(){
-        System.out.println("Data : " + this.dataToReceiveFromServer.getData(key));
+    public void printData() {
+        if (this.dataToReceiveFromServer == null) return;
+
+        System.out.println("Data : " + this.dataToReceiveFromServer.getData(KEY));
         System.out.println("Date and time : " + this.dataToReceiveFromServer.getDate());
         System.out.println("from : " + this.dataToReceiveFromServer.getUserName());
     }
@@ -154,16 +158,16 @@ public class ClackClient {
      * Does not return anything.
      * For now, it should have no code, just a declaration.
      */
-    public void sendData(){}
-    public void receiveData(){}
+    public void sendData() {}
+    public void receiveData() {}
 
-    public String getUserName(){
+    public String getUserName() {
         return this.userName;
     } //returns username
-    public String getHostName(){
+    public String getHostName() {
         return this.hostName;
     } //return host name
-    public int getPort(){
+    public int getPort() {
         return this.port;
     } //return port
 
@@ -171,9 +175,12 @@ public class ClackClient {
      * Overridden functions
      */
     @Override
-    public int hashCode(){ return Objects.hash(this.userName,this.hostName,this.port,this.closeConnection,this.dataToSendToServer,this.dataToReceiveFromServer);}
+    public int hashCode() {
+        return Objects.hash(this.userName, this.hostName, this.port, this.closeConnection, this.dataToSendToServer, this.dataToReceiveFromServer);
+    }
+
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -189,13 +196,14 @@ public class ClackClient {
                 this.dataToSendToServer == objClackClient.dataToSendToServer &&
                 this.dataToReceiveFromServer == objClackClient.dataToReceiveFromServer;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "USERNAME: " + this.userName + "\n" +
-               "HOSTNAME: " + this.hostName + "\n" +
-               "PORT: " + this.port + "\n" +
-               "CONNECTION STATUS:" + (this.closeConnection ? "Closed" : "Open") + "\n" +
-               "DATA_TO_SEND: " + this.dataToSendToServer + "\n" +
-               "DATA_RECEIVE_FROM: " + this.dataToReceiveFromServer;
+                "HOSTNAME: " + this.hostName + "\n" +
+                "PORT: " + this.port + "\n" +
+                "CONNECTION STATUS:" + (this.closeConnection ? "Closed" : "Open") + "\n" +
+                "DATA_TO_SEND: " + this.dataToSendToServer + "\n" +
+                "DATA_RECEIVE_FROM: " + this.dataToReceiveFromServer;
     }
 }

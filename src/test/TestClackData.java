@@ -12,7 +12,7 @@ public class TestClackData {
 
     //FileClackData first username
     private static final String FIRST_USERNAME = "FIRST_USERNAME";
-    private static final String FIRST_FILENAME = "FIRST_FILENAME";
+    private static final String FIRST_FILENAME = "part2_document.txt";
     private static final String FIRST_SETFILENAME = "FIRST_SETFILENAME";
     private static final int FIRST_TEST = 1;
 
@@ -40,6 +40,19 @@ public class TestClackData {
         FileClackData user_1 = new FileClackData(FIRST_USERNAME, FIRST_FILENAME, FIRST_TEST);
         FileClackData user_2 = new FileClackData(SECOND_USERNAME, SECOND_FILENAME, SECOND_TEST);
 
+        // Test two:
+        // FileClackData with encryption and decryption: readFileContents() and writeFileContents()
+        // FileClackData without encryption and decryption: readFileContents(key) and writeFileContents(key)
+        user_1.readFileContents(KEY);
+        user_1.writeFileContents(KEY);
+        user_1.readFileContents();
+        user_1.writeFileContents();
+
+        user_2.readFileContents(KEY);
+        user_2.writeFileContents(KEY);
+        user_2.readFileContents();
+        user_2.writeFileContents();
+
         System.out.println("user_1 vs user_2  " + user_1.equals(user_2));
         System.out.println("\n");
         System.out.println("user_1 vs user_1 " + user_1.equals(user_1));
@@ -49,7 +62,10 @@ public class TestClackData {
         System.out.println("\n");
        // System.out.println("user_1: " + user_1.getData(KEY));
         System.out.println("user_1 getFilename: " + user_1.getFileName());
+        System.out.println("user_1 Type: " + user_1.getType());
+        System.out.println("user_1 getFilename: " + user_1.getFileName());
         System.out.println("\n");
+
 
         System.out.println("user_1 hashcode  " + user_1.hashCode());
         System.out.println(user_1);

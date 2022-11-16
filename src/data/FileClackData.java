@@ -45,12 +45,18 @@ public class FileClackData extends ClackData {
     /**
      * returns decrypted fileContents
      */
-    public String getData(String key){ return this.decrypt(this.fileContents,key); }
+    @Override
+    public String getData(String key){ return decrypt(this.fileContents,key); }
+
+    @Override
+    public String getData() {
+        return this.fileContents;
+    }
 
 
     /**
-     * This method takes in no arguments,
-     * and does non-secure file reads.
+     * This method takes no argument
+     * and does no-secure file reads
      * @throws IOException
      */
     public void readFileContents() throws IOException {
@@ -66,17 +72,19 @@ public class FileClackData extends ClackData {
 
         } catch (FileNotFoundException fnfe) {
             System.err.println("File does not exist");
-        }catch( IOException ioe) {
-            System.err.println("IOException occurred");
         }
+//        catch( IOException ioe) {
+//            System.err.println("IOException occurred");
+//        }
     }
 
     /**
-     * Takes in one argument and does secure file reads and encrypt
-     * the contents to the instance variable using key.
+     * Take in one argument and does secure file reads and encrypt
+     * the contents to the instance variable using key
      * @param key
      * @throws IOException
      */
+
     public void readFileContents(String key) throws IOException {
         this.fileContents = "";
         File file = new File("src/test/" + this.fileName);
@@ -84,21 +92,25 @@ public class FileClackData extends ClackData {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String nextline;
             while ( (nextline = bufferedReader.readLine()) != EOS) {
-                fileContents = fileContents + encrypt(nextline, key);
+                fileContents = fileContents + nextline;
             }
             bufferedReader.close();
 
         } catch (FileNotFoundException fnfe) {
             System.err.println("File does not exist");
-        } catch(IOException ioe) {
-            System.err.println("IOException occurred");
         }
+//        catch(IOException ioe) {
+//            System.err.println("IOException occurred");
+//        }
+
+        fileContents = encrypt(fileContents, key);
     }
 
     /**
-     * This method takes in no arguments,
-     * and does non-secure file writes.
+     * This method takes no argument
+     * and does no-secure file writes
      */
+
     public void writeFileContents(){
         File file = new File("src/test/" + this.fileName);
         try {
@@ -107,12 +119,11 @@ public class FileClackData extends ClackData {
             bufferedWriter.close();
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("File does not exist");
+            System.err.println("Not found :  " + this.fileName + "(" + fnfe.getMessage() + ")");
         } catch(IOException ioe) {
             System.err.println("IOException occurred");
         }
     }
-
     /**
      * Takes in one argument and does secure file writes and decrypts
      * the contents to the instance variable using key.
@@ -126,7 +137,7 @@ public class FileClackData extends ClackData {
             bufferedWriter.close();
 
         } catch (FileNotFoundException fnfe) {
-            System.err.println("File does not exist");
+            System.err.println("Not found: " + this.fileName + " (" + fnfe.getMessage() + ")");
         } catch(IOException ioe) {
             System.err.println("IOException occurred");
         }
