@@ -31,7 +31,7 @@ public class ClackServer {
      */
     public ClackServer(int port) throws IllegalArgumentException{
         if(port < 1024){
-            throw new IllegalArgumentException("please make port must be greater than 1024")
+            throw new IllegalArgumentException("please make port must be greater than 1024");
         }
         this.port = port;
         this.closeConnection = false;
@@ -57,8 +57,9 @@ public class ClackServer {
     public void start(){
         try {
             ServerSocket skt = new ServerSocket(this.port);
-
             while (!closeConnection) {
+                Socket clientSocket = skt.accept();
+                outputClient = new ObjectOutputStream(clientSocket.getOutputStream());
                 this.sendData();
                 this.receiveData();
             }
@@ -73,6 +74,7 @@ public class ClackServer {
      * And determines if the connection is to be closed
      * Catches all relevant exception objects
      */
+
     public void receiveData(){
         try{
             this.dataToReceiveFromClient = (ClackData) inputClient.readObject();
@@ -99,6 +101,23 @@ public class ClackServer {
     }
 
     public int getPort(){ return this.port;} //returns the port
+
+
+    /**
+     * Main Method that uses command line arguments
+     * to create a new ClackServer Object and
+     * starts ClackServer
+     */
+    public static void main(String args[]) {
+        ClackServer server;
+        if (args.length > 0) {
+            final String input = args[0];
+            server = new ClackServer(Integer.parseInt(input));
+        } else {
+            server = new ClackServer();
+        }
+        server.start();
+    }
 
 
     /**

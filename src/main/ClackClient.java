@@ -189,6 +189,32 @@ public class ClackClient {
         return this.port;
     } //return port
 
+
+    /**
+     * Main Method that uses command line arguments
+     * to create a new ClackClient Object and
+     * starts ClackClient object
+     */
+    public static void main(String args[]) {
+        ClackClient client;
+        if (args.length > 0) {
+            final String input = args[0];
+            if (input.contains("@") && input.contains(":")) {
+                final String userName = input.substring(0, input.indexOf("@"));
+                final String hostName = input.substring(input.indexOf("@") + 1, input.indexOf(":"));
+                final int port = Integer.parseInt(input.substring(input.indexOf(":") + 1));
+                client = new ClackClient(userName, hostName, port);
+            } else if (input.contains("@") && !input.contains(":")) {
+                final String userName = input.substring(0, input.indexOf("@"));
+                final String hostName = input.substring(input.indexOf("@") + 1);
+                client = new ClackClient(userName, hostName);
+            } else {
+                client = new ClackClient(input);
+            }
+            client.start();
+        }
+    }
+
     /**
      * Overridden functions
      */
@@ -225,3 +251,5 @@ public class ClackClient {
                 "DATA_RECEIVE_FROM: " + this.dataToReceiveFromServer;
     }
 }
+
+
