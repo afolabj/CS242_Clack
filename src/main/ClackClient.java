@@ -189,6 +189,9 @@ public class ClackClient {
         return this.port;
     } //return port
 
+    public boolean getCloseConnection(){
+        return this.closeConnection;
+    }
 
     /**
      * Main Method that uses command line arguments
