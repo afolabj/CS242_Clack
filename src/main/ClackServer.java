@@ -15,7 +15,6 @@ import java.io.*;
  */
 public class ClackServer {
     private static final int DEFAULT_PORT = 7000;  // The default port number
-    private static final String KEY = "HELLO";  // The default key for encryption and decryption
     private int port;
     private boolean closeConnection;
     private ArrayList<ServerSideClientIO> serverSideClientIOList;
@@ -71,12 +70,27 @@ public class ClackServer {
         }
     }
 
+    /**
+     * A synchronized method that iterates through the list
+     * For every object in the list, call the object’s setDataToSendToClient() method to set the
+     * instance variable ‘dataToSendToClient’ in that object, and then call the object’s
+     * sendData() method to force the object to send the data to the corresponding client
+     *
+     * @param dataToBroadcastToClients
+     */
     public synchronized void broadcast(ClackData dataToBroadcastToClients){
         for (int i = 0; i < serverSideClientIOList.size(); i++) {
             serverSideClientIOList.get(i).setDataToSendToClient(dataToBroadcastToClients);
             serverSideClientIOList.get(i).sendData();
         }
     }
+
+    /**
+     * A synchronized method that takes in a single ServerSideClientIO
+     * object, and removes this object from the list ‘serverSideClientIOList’
+     *
+     * @param serverSideClientToRemove
+     */
     public synchronized void remove(ClackData serverSideClientToRemove){
         serverSideClientIOList.remove(serverSideClientToRemove);
     }

@@ -83,7 +83,7 @@ public class ServerSideClientIO implements Runnable{
                         this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT) {
                     server.broadcast(dataToSendToClient);
                 }
-                this.dataToSendToClient = this.dataToReceiveFromClient;  // Echoing
+                this.dataToSendToClient = this.dataToReceiveFromClient;
                 sendData();
             }
             this.outToClient.close();
