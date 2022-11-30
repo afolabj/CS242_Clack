@@ -8,7 +8,7 @@ public class ClientSideServerListener implements Runnable{
      * parameter
      * @param client
      */
-    public ClientSideServerListener( ClackClient client){
+    public ClientSideServerListener(ClackClient client){
         this.client = client;
     }
 
