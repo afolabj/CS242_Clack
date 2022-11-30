@@ -1,4 +1,5 @@
 package main;
+
 import data.*;
 import java.util.*;
 import java.net.*;
@@ -14,20 +15,16 @@ import java.io.*;
  */
 public class ClackServer {
     private static final int DEFAULT_PORT = 7000;  // The default port number
-
     private int port;
     private boolean closeConnection;
-    private ClackData dataToReceiveFromClient;
-    private ClackData dataToSendToClient;
-    private ObjectInputStream inputClient;
-    private ObjectOutputStream outputClient;
-
+    private ArrayList<ServerSideClientIO> serverSideClientIOList;
 
     /**
      * The constructor that sets the port number.
      * Should set dataToReceiveFromClient and dataToSendToClient as null.
      *
      * @param port an int representing the port number on the server connected to
+     * @throws IllegalArgumentException
      */
     public ClackServer(int port) throws IllegalArgumentException{
         if(port < 1024){
@@ -35,10 +32,7 @@ public class ClackServer {
         }
         this.port = port;
         this.closeConnection = false;
-        this.dataToReceiveFromClient = null;
-        this.dataToSendToClient = null;
-        this.inputClient = null;
-        this.outputClient = null;
+        this.serverSideClientIOList = new ArrayList<ServerSideClientIO>();
     }
 
     /**
@@ -57,75 +51,58 @@ public class ClackServer {
     public void start(){
         try {
             ServerSocket skt = new ServerSocket(this.port);
-            while (!closeConnection) {
-                Socket clientSocket = skt.accept();
-                outputClient = new ObjectOutputStream(clientSocket.getOutputStream());
-                this.sendData();
-                this.receiveData();
+            Socket clientSocket = skt.accept();
+            while (!this.closeConnection) {
+                ServerSideClientIO ssc = new ServerSideClientIO(this, clientSocket);
+                Runnable countdownRunnable = ssc;
+                Thread countdownThread = new Thread(countdownRunnable);
+                countdownThread.start();
+                serverSideClientIOList.add(ssc);
             }
             skt.close();
+
         } catch (IOException ioe) {
             System.err.println("IO exception occurred");
+        } catch (SecurityException se) {
+            System.err.println("Security Exception occurred");
+        } catch (IllegalArgumentException iae) {
+            System.err.println("Illegal Argument Exception occurred");
         }
     }
 
     /**
-     * Reads in a ClackData object from the ObjectInputStream
-     * And determines if the connection is to be closed
-     * Catches all relevant exception objects
+     * A synchronized method that iterates through the list
+     * For every object in the list, call the object’s setDataToSendToClient() method to set the
+     * instance variable ‘dataToSendToClient’ in that object, and then call the object’s
+     * sendData() method to force the object to send the data to the corresponding client
+     *
+     * @param dataToBroadcastToClients
      */
-
-    public void receiveData(){
-        try{
-            this.dataToReceiveFromClient = (ClackData) inputClient.readObject();
-            if(this.dataToReceiveFromClient.getType() == 1)
-                closeConnection = !closeConnection;
-        } catch (IOException ioe) {
-            System.err.println("IO exception occurred");
-        } catch (ClassNotFoundException cnf) {
-            System.err.println ("Class not found");
+    public synchronized void broadcast(ClackData dataToBroadcastToClients){
+        for (int i = 0; i < serverSideClientIOList.size(); i++) {
+            serverSideClientIOList.get(i).setDataToSendToClient(dataToBroadcastToClients);
+            serverSideClientIOList.get(i).sendData();
         }
-        this.dataToSendToClient = this.dataToReceiveFromClient;
     }
 
     /**
-     * Writes out the ClackData object and
-     * Catches all relevant exception objects
+     * A synchronized method that takes in a single ServerSideClientIO
+     * object, and removes this object from the list ‘serverSideClientIOList’
+     *
+     * @param serverSideClientToRemove
      */
-    public void sendData(){
-        try{
-            outputClient.writeObject(this.dataToSendToClient);
-        } catch (IOException ioe) {
-            System.err.println("IO exception occurred");
-        }
+    public synchronized void remove(ClackData serverSideClientToRemove){
+        serverSideClientIOList.remove(serverSideClientToRemove);
     }
 
     public int getPort(){ return this.port;} //returns the port
-
-
-    /**
-     * Main Method that uses command line arguments
-     * to create a new ClackServer Object and
-     * starts ClackServer
-     */
-    public static void main(String args[]) {
-        ClackServer server;
-        if (args.length > 0) {
-            final String input = args[0];
-            server = new ClackServer(Integer.parseInt(input));
-        } else {
-            server = new ClackServer();
-        }
-        server.start();
-    }
-
 
     /**
      * Overridden functions
      */
     @Override
     public int hashCode(){
-        return Objects.hash(this.port,this.closeConnection,this.dataToReceiveFromClient,this.dataToSendToClient);
+        return Objects.hash(this.port,this.closeConnection);
     }
     @Override
     public boolean equals(Object obj){
@@ -137,16 +114,27 @@ public class ClackServer {
         }
 
         ClackServer objClackServer = (ClackServer) obj;
-        return this.port == objClackServer.port &&
-                this.closeConnection == objClackServer.closeConnection &&
-                this.dataToReceiveFromClient == objClackServer.dataToReceiveFromClient &&
-                this.dataToSendToClient == objClackServer.dataToSendToClient;
+        return this.port == objClackServer.port && this.closeConnection == objClackServer.closeConnection;
     }
     @Override
     public String toString() {
         return "PORT:" + this.port + "\n" +
-               "CONNECTION STATUS: " + (this.closeConnection ? "Closed" : "Open") + "\n" +
-               "DATA_TO_SEND_SERVER: " + this.dataToSendToClient + "\n" +
-               "DATA_TO_RECEIVE_FROM_SERVER:" + this.dataToReceiveFromClient;
+               "CONNECTION STATUS: " + (this.closeConnection ? "Closed" : "Open");
+    }
+
+    /**
+     * Main Method that uses command line arguments
+     * to create a new ClackServer Object and
+     * starts ClackServer
+     */
+    public static void main(String args[]) {
+        ClackServer clackServer;
+        if (args.length == 0) {
+            clackServer = new ClackServer();
+        } else {
+            int port = Integer.parseInt(args[0]);
+            clackServer = new ClackServer(port);
+        }
+        clackServer.start();
     }
 }

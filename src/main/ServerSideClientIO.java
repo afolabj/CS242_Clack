@@ -32,7 +32,17 @@ public class ServerSideClientIO implements Runnable{
         this.clientSocket = clientSocket;
     }
 
-    public void sendData(){}
+    public void sendData(){
+        try {
+            this.outToClient.writeObject(this.dataToSendToClient);
+        } catch (InvalidClassException ice) {
+            System.err.println("Invalid Class Exception occurred");
+        } catch (NotSerializableException nse) {
+            System.err.println("Not Serializable Exception occurred");
+        } catch (IOException ioe) {
+            System.err.println("IO Exception occurred");
+        }
+    }
 
     /**
      * a simple mutator that sets the variable in
@@ -43,8 +53,48 @@ public class ServerSideClientIO implements Runnable{
     public ClackData setDataToSendToClient(ClackData dataToSendToClient){
         return this.dataToSendToClient = dataToSendToClient;
     }
-    public void receiveData(){}
+    public void receiveData(){
+        try {
+            this.dataToReceiveFromClient = (ClackData) this.inFromClient.readObject();
+            if (this.dataToReceiveFromClient.getType() == ClackData.CONSTANT_LOGOUT) {
+                this.closeConnection = true;
+            }
+        } catch (ClassNotFoundException cnf) {
+            System.err.println("Class Not Found");
+        } catch (InvalidClassException ice) {
+            System.err.println("Invalid Class");
+        } catch (StreamCorruptedException sce) {
+            System.err.println("Stream Corrupted");
+        } catch (OptionalDataException ode) {
+            System.err.println("Optional Data Exception occurred");
+        } catch (IOException ioe) {
+            System.err.println("IOException occurred");
+        }
+    }
 
     @Override
-    public void run(){}
+    public void run(){
+        try {
+            this.inFromClient = new ObjectInputStream(clientSocket.getInputStream());
+            this.outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
+            while (!this.closeConnection) {
+                this.receiveData();
+                if (this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS ||
+                        this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT) {
+                    server.broadcast(dataToSendToClient);
+                }
+                this.dataToSendToClient = this.dataToReceiveFromClient;
+                sendData();
+            }
+            this.outToClient.close();
+            this.inFromClient.close();
+
+        } catch (IOException ioe) {
+            System.err.println("IO exception occurred");
+        } catch (SecurityException se) {
+            System.err.println("Security Exception occurred");
+        } catch (IllegalArgumentException iae) {
+            System.err.println("Illegal Argument Exception occurred");
+        }
+    }
 }

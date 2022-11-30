@@ -6,8 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="08961669-5129-4139-b6b6-dbb1b9fa119d" name="Changes" comment="hi">
+    <list default="true" id="08961669-5129-4139-b6b6-dbb1b9fa119d" name="Changes" comment="part 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ClackServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ClackServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ServerSideClientIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ServerSideClientIO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +189,21 @@
       <option name="project" value="LOCAL" />
       <updated>1668743291621</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="finished ClientSideServerListener and started ServerSideClientIO">
+      <created>1669536838267</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669536838267</updated>
+    </task>
+    <task id="LOCAL-00013" summary="part 4">
+      <created>1669770992760</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669770992760</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -205,7 +221,9 @@
     <MESSAGE value="Project No Errors" />
     <MESSAGE value="project part 2" />
     <MESSAGE value="hi" />
-    <option name="LAST_COMMIT_MESSAGE" value="hi" />
+    <MESSAGE value="finished ClientSideServerListener and started ServerSideClientIO" />
+    <MESSAGE value="part 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="part 4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
