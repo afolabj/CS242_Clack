@@ -95,20 +95,20 @@ public class ClackClient {
      */
     public void start() {
         try {
+            Runnable countdownRunnable = new ClientSideServerListener(this);
+            Thread countdownThread = new Thread(countdownRunnable);
             Socket skt = new Socket(this.hostName, this.port);
             this.inFromStd = new Scanner(System.in);
             this.outToServer = new ObjectOutputStream(skt.getOutputStream());
             this.inFromServer = new ObjectInputStream(skt.getInputStream());
+            countdownThread.start();
 
             while (!this.closeConnection) {
                 readClientData();
                 sendData();
-
                 if (this.closeConnection) {
                     break;
                 }
-                receiveData();
-                printData();
             }
             this.inFromStd.close();
             this.outToServer.close();
