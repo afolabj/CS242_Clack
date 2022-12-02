@@ -19,7 +19,15 @@ public class ClientSideServerListener implements Runnable{
     public void run() {
         while (!client.getCloseConnection()){
             client.receiveData();
+
+            if (client.getCloseConnection()) {
+                break;
+            }
             client.printData();
         }
     }
 }
+// Open ended Questions: #4
+// Printing ListUsers
+// Running the clackclient and clackserver programs
+
