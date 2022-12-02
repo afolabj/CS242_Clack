@@ -23,3 +23,7 @@ public class ClientSideServerListener implements Runnable{
         }
     }
 }
+// Open ended Questions: #4
+// Printing ListUsers
+// Running the clackclient and clackserver programs
+
