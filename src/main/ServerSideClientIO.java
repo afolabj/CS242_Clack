@@ -44,6 +44,13 @@ public class ServerSideClientIO implements Runnable{
         }
     }
 
+    public String getUserName() {
+        if (dataToReceiveFromClient == null) {
+            return "";
+        }
+        return dataToReceiveFromClient.getUserName();
+    }
+
     /**
      * a simple mutator that sets the variable in
      * this class
@@ -56,8 +63,14 @@ public class ServerSideClientIO implements Runnable{
     public void receiveData(){
         try {
             this.dataToReceiveFromClient = (ClackData) this.inFromClient.readObject();
+
             if (this.dataToReceiveFromClient.getType() == ClackData.CONSTANT_LOGOUT) {
                 this.closeConnection = true;
+                this.server.remove(this);
+            }
+
+            if (this.dataToReceiveFromClient.getType() == ClackData.CONSTANT_LISTUSERS) {
+                this.server.sendUsersList();
             }
         } catch (ClassNotFoundException cnf) {
             System.err.println("Class Not Found");
@@ -77,14 +90,18 @@ public class ServerSideClientIO implements Runnable{
         try {
             this.inFromClient = new ObjectInputStream(clientSocket.getInputStream());
             this.outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
+
             while (!this.closeConnection) {
                 this.receiveData();
-                if (this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS ||
+
+                // (!(this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS ||
+                //    this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT))
+                if (this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS &&
                         this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT) {
-                    server.broadcast(dataToSendToClient);
+                    server.broadcast(dataToReceiveFromClient);
                 }
-                this.dataToSendToClient = this.dataToReceiveFromClient;
-                sendData();
+//                this.dataToSendToClient = this.dataToReceiveFromClient;
+//                sendData();
             }
             this.outToClient.close();
             this.inFromClient.close();

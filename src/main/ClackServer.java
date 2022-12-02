@@ -14,7 +14,8 @@ import java.io.*;
  * to a single port.
  */
 public class ClackServer {
-    private static final int DEFAULT_PORT = 7000;  // The default port number
+    private static final int DEFAULT_PORT = 8000;  // The default port number
+    private static final String KEY = "HELLO";  // The default key for encryption and decryption
     private int port;
     private boolean closeConnection;
     private ArrayList<ServerSideClientIO> serverSideClientIOList;
@@ -51,8 +52,10 @@ public class ClackServer {
     public void start(){
         try {
             ServerSocket skt = new ServerSocket(this.port);
-            Socket clientSocket = skt.accept();
+
             while (!this.closeConnection) {
+                Socket clientSocket = skt.accept();
+                System.out.println("A client is connected");
                 ServerSideClientIO ssc = new ServerSideClientIO(this, clientSocket);
                 Runnable countdownRunnable = ssc;
                 Thread countdownThread = new Thread(countdownRunnable);
@@ -101,28 +104,22 @@ public class ClackServer {
      *************************************************************************************************
      */
 
-    public String listUsersToString() {
+    public void sendUsersList() {
         String users = "";
         int user = 0;
-        for (int i = 0; i < serverSideClientIOList.size(); i++)
-        {
-            if (serverSideClientIOList.get(i).dataToReceiveFromClient() != null) {
-                user++;
-                users = users + "Client " + user + ": " + serverSideClientIOList.get(i).dataToReceiveFromClient().getUserName();
-                System.err.println("\n");
-            }}
-        return users;
-    }
 
-    public void sendListUsers(ServerSideClientIO ssc) {
         for (int i = 0; i < serverSideClientIOList.size(); i++)
         {
-            if (serverSideClientIOList.get(i).equals(ssc))
-            {
-                String listUsers = listUsersToString();
-                ssc.sendData(new MessageClackData(null, listUsers, ClackData.CONSTANT_LISTUSERS));
-                i = serverSideClientIOList.size();
-            }}}
+            String username =  serverSideClientIOList.get(i).getUserName();
+            if (!username.isEmpty()) {
+                user++;
+                users = users + "Client " + user + ": " + serverSideClientIOList.get(i).getUserName() + "\n";
+            }}
+        System.out.println(users);
+
+        ClackData userListData = new MessageClackData("Server",users,KEY,ClackData.CONSTANT_SENDMESSAGE);
+        broadcast(userListData);
+    }
 
     /**
      *************************************************************************************************

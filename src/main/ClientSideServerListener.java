@@ -19,6 +19,10 @@ public class ClientSideServerListener implements Runnable{
     public void run() {
         while (!client.getCloseConnection()){
             client.receiveData();
+
+            if (client.getCloseConnection()) {
+                break;
+            }
             client.printData();
         }
     }
