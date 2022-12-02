@@ -146,6 +146,14 @@ public class ClackClient {
             }
 
         } else if (input.equals("LISTUSERS")) {
+            /**
+             *************************************************************************************************
+             */
+            this.dataToSendToServer = new MessageClackData(this.userName, null, ClackData.CONSTANT_LISTUSERS);
+            /**
+             *************************************************************************************************
+             */
+
         } else {
             String message = input + this.inFromStd.nextLine();
             this.dataToSendToServer = new MessageClackData(this.userName, message, KEY, ClackData.CONSTANT_SENDMESSAGE);

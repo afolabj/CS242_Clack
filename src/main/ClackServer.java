@@ -91,11 +91,43 @@ public class ClackServer {
      *
      * @param serverSideClientToRemove
      */
-    public synchronized void remove(ClackData serverSideClientToRemove){
+    public synchronized void remove(ServerSideClientIO serverSideClientToRemove){
         serverSideClientIOList.remove(serverSideClientToRemove);
     }
 
     public int getPort(){ return this.port;} //returns the port
+
+    /**
+     *************************************************************************************************
+     */
+
+    public String listUsersToString() {
+        String users = "";
+        int user = 0;
+        for (int i = 0; i < serverSideClientIOList.size(); i++)
+        {
+            if (serverSideClientIOList.get(i).dataToReceiveFromClient() != null) {
+                user++;
+                users = users + "Client " + user + ": " + serverSideClientIOList.get(i).dataToReceiveFromClient().getUserName();
+                System.err.println("\n");
+            }}
+        return users;
+    }
+
+    public void sendListUsers(ServerSideClientIO ssc) {
+        for (int i = 0; i < serverSideClientIOList.size(); i++)
+        {
+            if (serverSideClientIOList.get(i).equals(ssc))
+            {
+                String listUsers = listUsersToString();
+                ssc.sendData(new MessageClackData(null, listUsers, ClackData.CONSTANT_LISTUSERS));
+                i = serverSideClientIOList.size();
+            }}}
+
+    /**
+     *************************************************************************************************
+     */
+
 
     /**
      * Overridden functions
