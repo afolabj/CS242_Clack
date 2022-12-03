@@ -32,6 +32,12 @@ public class ServerSideClientIO implements Runnable{
         this.clientSocket = clientSocket;
     }
 
+    /**
+     * Sends data to client.
+     * Does not return anything.
+     * Must catch all relevant exceptions separately and
+     * print out messages to standard error for each exception.
+     */
     public void sendData(){
         try {
             this.outToClient.writeObject(this.dataToSendToClient);
@@ -44,6 +50,7 @@ public class ServerSideClientIO implements Runnable{
         }
     }
 
+    //returns username
     public String getUserName() {
         if (dataToReceiveFromClient == null) {
             return "";
@@ -60,6 +67,14 @@ public class ServerSideClientIO implements Runnable{
     public ClackData setDataToSendToClient(ClackData dataToSendToClient){
         return this.dataToSendToClient = dataToSendToClient;
     }
+
+    /**
+     * Receives data from client.
+     * Does not return anything.
+     * This method should determine if the connection is to be closed.
+     * Must catch all relevant exceptions separately and
+     * print out messages to standard error for each exception.
+     */
     public void receiveData(){
         try {
             this.dataToReceiveFromClient = (ClackData) this.inFromClient.readObject();
@@ -94,14 +109,10 @@ public class ServerSideClientIO implements Runnable{
             while (!this.closeConnection) {
                 this.receiveData();
 
-                // (!(this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS ||
-                //    this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT))
                 if (this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LISTUSERS &&
                         this.dataToReceiveFromClient.getType() != ClackData.CONSTANT_LOGOUT) {
                     server.broadcast(dataToReceiveFromClient);
                 }
-//                this.dataToSendToClient = this.dataToReceiveFromClient;
-//                sendData();
             }
             this.outToClient.close();
             this.inFromClient.close();

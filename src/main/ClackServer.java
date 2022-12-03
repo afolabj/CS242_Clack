@@ -46,8 +46,10 @@ public class ClackServer {
     }
 
     /**
-     * Starts the server.
-     * Gets connections from the client
+     * Starts the server to get connections from the client and echo the client's data.
+     * Does not return anything.
+     * Must catch all relevant exceptions separately and
+     * print out messages to standard error for each exception.
      */
     public void start(){
         try {
@@ -100,9 +102,7 @@ public class ClackServer {
 
     public int getPort(){ return this.port;} //returns the port
 
-    /**
-     *************************************************************************************************
-     */
+
 
     public void sendUsersList() {
         String users = "";
@@ -120,10 +120,6 @@ public class ClackServer {
         ClackData userListData = new MessageClackData("Server",users,KEY,ClackData.CONSTANT_SENDMESSAGE);
         broadcast(userListData);
     }
-
-    /**
-     *************************************************************************************************
-     */
 
 
     /**

@@ -88,10 +88,11 @@ public class ClackClient {
         this("Anon");
     }
 
-    /**
-     * Starts the client.
+     /**
+     * Starts the client's communication with the server.
      * Does not return anything.
-     * For now, it should have no code, just a declaration.
+     * Must catch all relevant exceptions separately and
+     * print out messages to standard error for each exception.
      */
     public void start() {
         try {
@@ -144,14 +145,7 @@ public class ClackClient {
             }
 
         } else if (input.equals("LISTUSERS")) {
-            /**
-             *************************************************************************************************
-             */
             this.dataToSendToServer = new MessageClackData(this.userName, null, ClackData.CONSTANT_LISTUSERS);
-            /**
-             *************************************************************************************************
-             */
-
         } else {
             String message = input + this.inFromStd.nextLine();
             this.dataToSendToServer = new MessageClackData(this.userName, message, KEY, ClackData.CONSTANT_SENDMESSAGE);
